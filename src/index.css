@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+/* Hide the browser's default drag ghost image */
+[draggable="true"] {
+  -webkit-user-drag: element;
+}
+
+body {
+  cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Allow text selection in form inputs and textareas */
+input, textarea {
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
