@@ -170,11 +170,16 @@ function KanbanBoard() {
 
   return (
     <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">
-            Kanban Board
-          </h1>
+      <div className="min-h-screen bg-[#0f1117] p-4 md:p-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-8">
+            <h1 className="text-4xl font-semibold text-[#f1f5f9] mb-2 text-center tracking-tight">
+              Kanban Board
+            </h1>
+            <p className="text-center text-[#64748b] text-sm">
+              Organize your tasks efficiently
+            </p>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
             <Column
@@ -216,7 +221,7 @@ function KanbanBoard() {
       </div>
       <DragOverlay>
         {activeTask ? (
-          <div style={{ opacity: 0.75 }}>
+          <div style={{ opacity: 0.9 }}>
             <Task task={activeTask} onEdit={() => {}} onDelete={() => {}} />
           </div>
         ) : null}

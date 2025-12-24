@@ -6,30 +6,39 @@ function Task({ task, onEdit, onDelete }) {
   });
 
   const style = {
-    opacity: isDragging ? 0.75 : 1,
+    opacity: isDragging ? 0.5 : 1,
   };
 
-  const priorityColors = {
-    low: 'border-green-500',
-    medium: 'border-yellow-500',
-    high: 'border-red-500',
+  const priorityStyles = {
+    low: {
+      border: 'border-l-2 border-[#22c55e]',
+      badge: 'bg-[#22c55e]/10 text-[#22c55e]',
+    },
+    medium: {
+      border: 'border-l-2 border-[#eab308]',
+      badge: 'bg-[#eab308]/10 text-[#eab308]',
+    },
+    high: {
+      border: 'border-l-2 border-[#ef4444]',
+      badge: 'bg-[#ef4444]/10 text-[#ef4444]',
+    },
   };
 
-  const priorityColor = priorityColors[task.priority] || priorityColors.medium;
+  const priorityStyle = priorityStyles[task.priority] || priorityStyles.medium;
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`bg-white rounded-lg p-4 shadow-md hover:shadow-xl hover:scale-[1.02] transition-all duration-200 border-l-2 ${priorityColor} group touch-none relative`}
+      className={`bg-[#21252e] rounded-md p-4 ${priorityStyle.border} hover:bg-[#282d38] transition-colors duration-150 group touch-none relative cursor-pointer`}
     >
-      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+      <div className="absolute top-2 right-2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity z-10">
         <button
           onClick={(e) => {
             e.stopPropagation();
             onEdit(task);
           }}
-          className="text-xs bg-blue-50 text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+          className="text-xs bg-[#3b82f6]/10 text-[#3b82f6] px-2 py-1 rounded hover:bg-[#3b82f6]/20 transition-colors font-medium"
         >
           Edit
         </button>
@@ -38,7 +47,7 @@ function Task({ task, onEdit, onDelete }) {
             e.stopPropagation();
             onDelete(task.id);
           }}
-          className="text-xs bg-red-50 text-red-600 px-2 py-1 rounded hover:bg-red-100 transition-colors"
+          className="text-xs bg-[#ef4444]/10 text-[#ef4444] px-2 py-1 rounded hover:bg-[#ef4444]/20 transition-colors font-medium"
         >
           Delete
         </button>
@@ -48,11 +57,17 @@ function Task({ task, onEdit, onDelete }) {
         {...attributes}
         onClick={() => onEdit(task)}
         onMouseDown={(e) => e.preventDefault()}
-        className="cursor-pointer select-none"
+        className="cursor-grab active:cursor-grabbing select-none"
       >
-        <h3 className="font-semibold text-gray-800 pr-22">{task.title}</h3>
+        <div className="flex items-start justify-between mb-2">
+          <h3 className="font-medium text-[#f1f5f9] pr-20 text-sm leading-snug">
+            {task.title}
+          </h3>
+        </div>
         {task.description && (
-          <p className="text-sm text-gray-600 mt-2">{task.description}</p>
+          <p className="text-xs text-[#94a3b8] mt-2 leading-relaxed">
+            {task.description}
+          </p>
         )}
       </div>
     </div>

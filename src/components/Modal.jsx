@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 
 function Modal({ isOpen, onClose, title, children }) {
-  const [size, setSize] = useState({ width: 448, height: 'auto' }); // 448px = max-w-md
+  const [size, setSize] = useState({ width: 448, height: 'auto' });
   const [isResizing, setIsResizing] = useState(false);
   const [minHeight, setMinHeight] = useState(200);
   const modalRef = useRef(null);
@@ -13,7 +13,6 @@ function Modal({ isOpen, onClose, title, children }) {
       if (e.key === 'Escape') {
         e.preventDefault();
         e.stopPropagation();
-        // Clear any text selection
         window.getSelection()?.removeAllRanges();
         onClose();
       }
@@ -21,7 +20,6 @@ function Modal({ isOpen, onClose, title, children }) {
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      // Capture the initial height as minimum height after modal renders
       setTimeout(() => {
         if (modalRef.current) {
           const rect = modalRef.current.getBoundingClientRect();
@@ -29,11 +27,9 @@ function Modal({ isOpen, onClose, title, children }) {
         }
       }, 0);
     } else {
-      // Clear selection when modal closes
       window.getSelection()?.removeAllRanges();
-      // Reset size when modal closes
       setSize({ width: 448, height: 'auto' });
-      setMinHeight(200); // Reset to default
+      setMinHeight(200);
     }
 
     return () => {
@@ -47,7 +43,7 @@ function Modal({ isOpen, onClose, title, children }) {
     setIsResizing(true);
     hasResized.current = true;
 
-    const MIN_WIDTH = 448; // Match the default opening width
+    const MIN_WIDTH = 448;
 
     const rect = modalRef.current.getBoundingClientRect();
     startPos.current = {
@@ -79,7 +75,6 @@ function Modal({ isOpen, onClose, title, children }) {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
 
-      // Reset the flag after a short delay to allow click events to be ignored
       setTimeout(() => {
         hasResized.current = false;
       }, 100);
@@ -92,7 +87,6 @@ function Modal({ isOpen, onClose, title, children }) {
   if (!isOpen) return null;
 
   const handleBackdropClick = () => {
-    // Don't close if we just finished resizing
     if (hasResized.current) {
       return;
     }
@@ -102,12 +96,12 @@ function Modal({ isOpen, onClose, title, children }) {
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(4px)' }}
       onClick={handleBackdropClick}
     >
       <div
         ref={modalRef}
-        className="bg-white rounded-lg shadow-xl overflow-hidden relative flex flex-col"
+        className="bg-[#1a1d24] rounded-lg shadow-2xl overflow-hidden relative flex flex-col border border-[#2e333d]"
         style={{
           width: size.width,
           height: size.height === 'auto' ? 'auto' : size.height,
@@ -118,14 +112,16 @@ function Modal({ isOpen, onClose, title, children }) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b border-gray-200">
-          <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+        <div className="flex items-center justify-between p-5 border-b border-[#2e333d]">
+          <h2 className="text-lg font-semibold text-[#f1f5f9]">
+            {title}
+          </h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-[#64748b] hover:text-[#f1f5f9] transition-colors"
           >
             <svg
-              className="w-6 h-6"
+              className="w-5 h-5"
               fill="none"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -137,24 +133,24 @@ function Modal({ isOpen, onClose, title, children }) {
             </svg>
           </button>
         </div>
-        <div className="flex-1 p-4 overflow-y-auto">
+        <div className="flex-1 p-5 overflow-y-auto">
           {children}
         </div>
 
         {/* Resize handles */}
         <div
           onMouseDown={(e) => handleResizeStart(e, 'right')}
-          className="absolute top-0 right-0 w-2 h-full cursor-ew-resize hover:bg-blue-500 transition-colors bg-gray-200 opacity-50 hover:opacity-100"
+          className="absolute top-0 right-0 w-1 h-full cursor-ew-resize hover:bg-[#3b82f6] transition-colors opacity-0 hover:opacity-100"
           style={{ right: 0 }}
         />
         <div
           onMouseDown={(e) => handleResizeStart(e, 'bottom')}
-          className="absolute bottom-0 left-0 w-full h-2 cursor-ns-resize hover:bg-blue-500 transition-colors bg-gray-200 opacity-50 hover:opacity-100"
+          className="absolute bottom-0 left-0 w-full h-1 cursor-ns-resize hover:bg-[#3b82f6] transition-colors opacity-0 hover:opacity-100"
           style={{ bottom: 0 }}
         />
         <div
           onMouseDown={(e) => handleResizeStart(e, 'bottom-right')}
-          className="absolute bottom-0 right-0 w-6 h-6 cursor-nwse-resize hover:bg-blue-500 transition-colors bg-gray-300 opacity-50 hover:opacity-100 rounded-tl-lg"
+          className="absolute bottom-0 right-0 w-4 h-4 cursor-nwse-resize hover:bg-[#3b82f6] transition-colors opacity-0 hover:opacity-50 rounded-tl"
           style={{ bottom: 0, right: 0 }}
         />
       </div>

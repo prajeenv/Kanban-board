@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* Professional Dark Mode Theme */
+:root {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --accent-blue: #60a5fa;
+  --accent-green: #22c55e;
+  --accent-yellow: #eab308;
+  --accent-red: #ef4444;
+  --dark-bg: #0f1117;
+  --dark-surface: #1a1d24;
+  --dark-card: #21252e;
+  --dark-hover: #282d38;
+  --dark-border: #2e333d;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+}
+
 /* Hide the browser's default drag ghost image */
 [draggable="true"] {
   -webkit-user-drag: element;
@@ -11,6 +29,8 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+  background: var(--dark-bg);
+  color: var(--text-primary);
 }
 
 /* Allow text selection in form inputs and textareas */
@@ -19,4 +39,24 @@ input, textarea {
   -webkit-user-select: text;
   -moz-user-select: text;
   -ms-user-select: text;
+}
+
+/* Scrollbar styling for dark mode */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--dark-surface);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--dark-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
 }
